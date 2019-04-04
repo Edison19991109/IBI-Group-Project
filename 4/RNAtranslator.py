@@ -18,13 +18,11 @@ if initiator:
         RNA = RNA[3:]
     protein = ""
     if "UAA" or "UAG" or "UGA" in codons:
-        def translate(x):
-            return match[x]
         for i in range(len(codons)-1):
             if codons[i] == "UAA" or codons[i] == "UAG" or codons[i] == "UGA":
                 break
             else:
-                protein += translate(codons[i])
+                protein += match[codons[i]]
         print(protein)
     else:
         print("No terminator")
