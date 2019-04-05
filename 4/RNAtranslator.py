@@ -6,7 +6,7 @@ Created on Wed Apr  3 17:07:31 2019
 """
 
 import re
-RNA = input("give me a sequence of RNA:")
+RNA = input("give me a sequence of RNA:\n")
 initiator = re.search("AUG",RNA)
 if initiator:
     a = initiator.start()
@@ -25,6 +25,6 @@ if initiator:
                 protein += match[codons[i]]
         print(protein)
     else:
-        print("No terminator")
+        print("Invalid sequence: No terminator \nPlease check if it's a sequence of mature mRNA")
 else:
-    print("No initiator")
+    print("Invalid sequence: No initiator \nPlease check if it's a sequence of mature mRNA")
