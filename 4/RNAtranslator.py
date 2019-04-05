@@ -17,7 +17,7 @@ if initiator:
         codons.append(RNA[:3])
         RNA = RNA[3:]
     protein = ""
-    if "UAA" or "UAG" or "UGA" in codons:
+    if "UAA" in codons or "UAG" in codons or "UGA" in codons:
         for i in range(len(codons)-1):
             if codons[i] == "UAA" or codons[i] == "UAG" or codons[i] == "UGA":
                 break
