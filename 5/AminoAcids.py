@@ -2,7 +2,7 @@
 """
 Created on Sun Apr 21 17:07:48 2019
 
-@author: surface
+@author: Valerya
 """
 
 A ={'G':(75,2.34,9.60),'A':(89,2.34,9.69),'P':(115,1.99,10.96),'V':(117,2.32,9.62),
@@ -21,4 +21,7 @@ len(A[k]) == 5,
          R <=A[k][3]=> R-
      A[k][4]== 1:
          R+ <=A[k][3]=> R
+         
+Nelson, David L.(David Lee),1942-author.  Lehninger principles of biochemistry /. 7th ed. 
+New York : W. H. Freeman and Company ; Houndmills, Basingstoke : Macmillan Higher Education, c2017.
 """
