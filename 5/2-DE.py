@@ -13,7 +13,7 @@ ax = fig.add_subplot(111)
 for k in P:
     pH=P[k][0]
     Mw=10-log(P[k][1]/1000)
-    ax.plot(pH,Mw,'o',label=k+":pH=%d,mass=%d"%(P[k][0],P[k][1]))
+    ax.plot(pH,Mw,'o',label=k+":pI=%d,Mw=%d"%(P[k][0],P[k][1]))
 plt.title('2-DE')
 ax.set_xlabel('pH')
 ax.set_ylabel('Mw(Da)')
