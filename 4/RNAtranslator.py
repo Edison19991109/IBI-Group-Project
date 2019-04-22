@@ -23,7 +23,7 @@ if initiator:
                 break
             else:
                 protein += match[codons[i]]
-        print(protein)
+        print('\nPrimary translation product:\n'+protein)
     else:
         print("Invalid sequence: No terminator \nPlease check if it's a sequence of mature mRNA")
 else:
