@@ -11,7 +11,7 @@ L = {'A':'E',
      'C':'EPHINAQIM',
      'D':'LGSRQKHSLPDLPYDYGAL',
      'E':'INHSIFWTNLSPNGGGEPKGELLEAIKRDFGSFCKFKE',
-     'F':'MAGGAQWTTKRGLQFFFTTSQAIPDWQLGLAGLAFSTSQWTTAAMQ'} #可以换成input输入多肽
+     'F':'MLCRAACSTGRRLGPVAGAAGSRHKHSLPDLPYDYGALEPHINAQIMQL'} #可以换成input输入多肽
 
 A ={'G':(75,2.34,9.60),'A':(89,2.34,9.69),'P':(115,1.99,10.96),'V':(117,2.32,9.62),
     'L':(131,2.36,9.60),'I':(131,2.36,9.68),'M':(149,2.28,9.21),'F':(165,1.83,9.13),
@@ -55,10 +55,21 @@ for k in L:
             pI = float('%.2f' % pH)
             ###print(pK[i],pK[i+1])
             break
+        if count(pKa,pH,1) > count(pKb,pH,0):
+            pI = pK[i]/2+(pK[i-1]+pK[i+1])/4
+            pI = float('%.2f' % pI)
+            ###print(pK[i],pK[i+1],pK[i-1])
+            break
     P[k] = (pI,Mw-18*(len(L[k])-1))
 
+import pandas as pd
 import matplotlib.pyplot as plt
 from numpy import log
+
+df = pd.DataFrame(P)
+df = df.T
+df.columns = ['pI','Mw']
+print(df)
 
 fig = plt.figure(figsize=(10,12))
 ax = fig.add_subplot(111)
