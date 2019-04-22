@@ -6,12 +6,12 @@ Created on Sun Apr 21 20:20:20 2019
 """
 
 #现实中同种氨基酸R基在一条多肽链不同位置pKa会发生变化，此程序无法模拟。当同种氨基酸在一条多肽链中出现次数过多，可能无法计算pI
-L = {'A':'D',
-     'B':'PAKVL',
+L = {'A':'E',
+     'B':'AAKA',
      'C':'EPHINAQIM',
      'D':'LGSRQKHSLPDLPYDYGAL',
-     'E':'INHSIFWTNLSPNGGGEPKGELLEAIKRDFGSFDKFKE',
-     'F':'QLHHSKADAAYVNNLNVTVEAYQEALAKGDVTAQIALQPALKFNGGGV'} #可以换成input输入多肽
+     'E':'INHSIFWTNLSPNGGGEPKGELLEAIKRDFGSFCKFKE',
+     'F':'MAGGAQWTTKRGLQFFFTTSQAIPDWQLGLAGLAFSTSQWTTAAMQ'} #可以换成input输入多肽
 
 A ={'G':(75,2.34,9.60),'A':(89,2.34,9.69),'P':(115,1.99,10.96),'V':(117,2.32,9.62),
     'L':(131,2.36,9.60),'I':(131,2.36,9.68),'M':(149,2.28,9.21),'F':(165,1.83,9.13),
@@ -46,14 +46,14 @@ for k in L:
                 pKa.append(A[L[k][i]][3]) #pKa：pH升高时带负电->不带电
             else: #R+ <=A[k][3]=> R
                 pKb.append(A[L[k][i]][3]) #pKa：pH升高时不带电->带正电
-    pKa.sort(reverse=True)
-    pKb.sort()
-    ###print(pKa,'\n',pKb)
-    for i in range(min([len(pKa),len(pKb)])):
-        pH = (pKa[i]+pKb[i])/2
-        if count(pKa,pH,0) == count(pKb,pH,1): #还要再讨论：某些多肽链中同种氨基酸多次出现，同时电离导致pH>某点时多肽带负电，<某点时带负电的情况
-            pI = pH
-            ###print(pKa[i],pKb[i])
+    pK = pKa+pKb
+    pK.sort()
+    ###print(pKa,'\n',pKb,'\n',pK)
+    for i in range(len(pK)-1):
+        pH = (pK[i]+pK[i+1])/2
+        if count(pKa,pH,1) == count(pKb,pH,0) > 0: #还要再讨论：某些多肽链中同种氨基酸多次出现，同时电离导致pH>某点时多肽带负电，<某点时带负电的情况
+            pI = float('%.2f' % pH)
+            ###print(pK[i],pK[i+1])
             break
     P[k] = (pI,Mw-18*(len(L[k])-1))
 
@@ -65,7 +65,7 @@ ax = fig.add_subplot(111)
 for k in P:
     pI=P[k][0]
     Mw=10-log(P[k][1]/1000) #logMw与距离成线性关系，Mw越大距离越短
-    ax.plot(pI,Mw,'o',label=k+':pI='+str(P[k][0])+'Mw='+str(P[k][1]))
+    ax.plot(pI,Mw,'o',label=k+':pI='+str(P[k][0])+' Mw='+str(P[k][1]))
 plt.title('2-DE')
 ax.set_xlabel('pH')
 ax.set_ylabel('Mw(Da)')
@@ -74,5 +74,5 @@ ax.set_yticks([10-log(10),10-log(5),10-log(2),10-log(1.5),10-log(1),10-log(0.5),
 ax.set_yticklabels([10000,5000,2000,1500,1000,500,200,100])
 ax.set_xlim(3,11)
 ax.set_ylim(10-log(10),)
-ax.legend(loc='lower right')
+ax.legend(loc='upper right')
 plt.show()
