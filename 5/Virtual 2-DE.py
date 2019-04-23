@@ -5,14 +5,22 @@ Created on Sun Apr 21 20:20:20 2019
 @author: Valerya
 """
 
+import re
+def Cap(s):
+    c = ''
+    for char in s:
+        if re.match('[A-Za-z]',char):
+            c += char.upper()
+    return c
+
 #现实中同种氨基酸R基在一条多肽链不同位置pKa会发生变化，此程序无法模拟。当同种氨基酸在一条多肽链中出现次数过多，可能无法计算pI
 L = {'Oxytocin':'CYIQNCPLG',
      'Vasopressin':'CYFQNCPRG',
      'InsulinA':'GIVEQCCTSICSLYQLENYCN',
      'Neurophysin2':'AVLDLDVRTCLPCGPGGKGRCFGPSICCGDELGCFVGTAEALRCQEENYLPSPCQSGQKPCGSGGRCAAAGICCSPDGCHEDPACDPEAAFSQH',
      'CytochromeC':'MGDVEKGKKIFIMKCSQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGYSYTAANKNKGIIWGEDTLMEYLENPKKYIPGTKMIFVGIKKKEERADLIAYLKKATNE',
-     'RndSeq1':input('input a sequence of a 30 AA peptide\n'),
-     'RndSeq2':input('input a sequence of a 50 AA peptide\n')} #可以换成input输入多肽
+     'RndSeq1':Cap(input('input a sequence of a 30 AA peptide:\n')),
+     'RndSeq2':Cap(input('input a sequence of a 50 AA peptide:\n'))} #可以换成input输入多肽
 
 A ={'G':(4,75.052,2.34,9.60),'A':(1,89.079,2.34,9.69),'P':(1,115.117,1.99,10.96),'V':(1,117.133,2.32,9.62),
     'L':(1,131.160,2.36,9.60),'I':(1,131.160,2.36,9.68),'M':(1,149.199,2.28,9.21),'F':(1,165.177,1.83,9.13),
