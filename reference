@@ -3,3 +3,7 @@ Nelson, David L.(David Lee),1942-author.  Lehninger principles of biochemistry /
 vasopressin-neurophysin 2-copeptin preproprotein [Homo sapiens] https://www.ncbi.nlm.nih.gov/protein/NP_000481.2?report=genpept
 RecName: Full=Insulin; Contains: RecName: Full=Insulin B chain; Contains: RecName: Full=Insulin A chain; Flags: Precursor https://www.ncbi.nlm.nih.gov/protein/P01308.1?report=genpept
 oxytocin-neurophysin I [Homo sapiens] https://www.ncbi.nlm.nih.gov/protein/AAA98806.1?report=genpept
+cytochrome c [Homo sapiens] https://www.ncbi.nlm.nih.gov/protein/NP_061820.1?report=genpept
+
+RndSeq1 EAIKRDFGSFDKFKEKLTAASVGVQGSG
+RndSeq2 MLSRAVCGTSRQLAPVLAYLGSRQKHSLPDLPYDYGALEPHINAQIMQ
