@@ -43,18 +43,17 @@ def count(L,a,b): #数带正/负电氨基酸残基
     return x
     
 print('\nAmino acids composition:')
-print('\033[31mNonpolar uncharged, \033[36mPositively charged, \033[32mNegatively charged, \033[30mPolar uncharged')
+print('\033[31mNonpolar uncharged(NU), \033[36mPositively charged(+C), \033[32mNegatively charged(-C), \033[30mPolar uncharged(PU)')
 for k in L:
-    Mw = 0 #分子量
-    pI = 0 #等电点
+    Mw = pI = a = b = c = d = 0 #分子量 #等电点
     pKa = [A[L[k][0]][2]] #C端羧基 3HN+/COOH <=A[k][2]=> 3HN+/COO-
     pKb = [A[L[k][len(L[k])-1]][3]] #N端氨基 3HN+/COO- <=A[k][3]=> 2HN/COO-
     print(k+': H-',end='')
     for i in range(len(L[k])):
-        if A[L[k][i]][0] == 1: print('\033[31m',end=''); print(L[k][i],end='')
-        elif A[L[k][i]][0] == 2: print('\033[36m',end=''); print(L[k][i],end='')
-        elif A[L[k][i]][0] == 3: print('\033[32m',end=''); print(L[k][i],end='')
-        else: print('\033[30m',end=''); print(L[k][i],end='')
+        if A[L[k][i]][0] == 1: a += 1; print('\033[31m',end=''); print(L[k][i],end='')
+        elif A[L[k][i]][0] == 2: b += 1; print('\033[36m',end=''); print(L[k][i],end='')
+        elif A[L[k][i]][0] == 3: c += 1;print('\033[32m',end=''); print(L[k][i],end='')
+        else: d += 1; print('\033[30m',end=''); print(L[k][i],end='')
         Mw += A[L[k][i]][1] #加上当前氨基酸分子量
         if len(A[L[k][i]]) == 6: #若当前氨基酸R基可电离
             if A[L[k][i]][5] == 0: #R <=A[k][4]=> R-
@@ -81,7 +80,7 @@ for k in L:
             ###print(pK[i+1],pK[i],pK[i-1])
             break
     Mw = Mw-18*(len(L[k])-1)
-    P[k] = (pI,float('%.1f' % Mw))
+    P[k] = (pI,float('%.1f' % Mw),len(L[k]),'%.1f%%' % (a*100/len(L[k])),'%.1f%%' % (b*100/len(L[k])),'%.1f%%' % (c*100/len(L[k])),'%.1f%%' % (d*100/len(L[k])))
     
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -89,7 +88,8 @@ from numpy import log
 
 df = pd.DataFrame(P)
 df = df.T
-df.columns = ['pI','Mw']
+df.columns = ['pI','Mw','Residue','NU','+C','-C','PU']
+pd.set_option('display.max_columns', None)
 print('\npI, Mw analysis:'); print(df)
 
 fig = plt.figure(figsize=(10,12))
