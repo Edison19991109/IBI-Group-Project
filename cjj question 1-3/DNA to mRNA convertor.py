@@ -6,14 +6,19 @@ Created on Wed Apr  3 19:08:39 2019
 @author: cuijiajun
 """
 import re
-dna_seq = input('give me a sequence of DNA (please use capital letters): ')
-if re.search('a|t|c|g',dna_seq) :
-    print ('please use capital letters')
-elif re.search('A|T|G|C',dna_seq):
+def Cap(s):
+    c = ''
+    for char in s:
+        if re.match('[A-Za-z]',char):
+            c += char.upper()
+    return c
+dna_seq = Cap(input('give me a sequence of DNA template strand (5\'-3\'):\n'))
+if re.search('[^ATCG]',dna_seq) :
+    print ('\nInvalid sequence')
+else:
     transcription = {'A':'U','G':'C','C':'G','T':'A'}
     rna_seq = ''
-    dna_seq = dna_seq.strip()
     for i in dna_seq:
         rna_seq += transcription[i]
-    print ('the mRNA sequence is:',rna_seq)
+    print ('\nThe hnRNA (mRNA precursor) sequence (3\'-5\') is:\n'+rna_seq)
     

@@ -35,16 +35,14 @@ def count(L,a,b): #数带正/负电氨基酸残基
     x = 0
     for i in L:
         if b == 1:
-            if i<a:
-                x += 1 #数比环境pH小的解离常数
+            x += 10**a/(10**a + 10**i)
         else:
-            if i>a:
-                x += 1 #数比环境pH大的解离常数
+            x +=10**i/(10**a + 10**i)
     return x
 
 if re.search(r'[BJOUXZ]',L['RndSeq1']) or re.search(r'[BJOUXZ]',L['RndSeq2']):
     print('\nInvalid sequence')
-else:    
+else:
     print('\nAmino acids composition:')
     print('\033[33mNonpolar uncharged(NU), \033[36mPositively charged(+C), \033[32mNegatively charged(-C), \033[37mPolar uncharged(PU)\033[0m R groups') #红，蓝，绿，灰
     for k in L: #for key in L
@@ -67,25 +65,16 @@ else:
         pK = pKa+pKb #pK：所有解离常数
         pK.sort() #从小到大排列
         ###print(pKa,'\n',pKb,'\n',pK) ###for code used for checking
+        Charge = {}
         for i in range(len(pK)-1):
             pH = (pK[i]+pK[i+1])/2 #响铃两解离常数中位数， 可能的pI
-            prev = (pK[i]+pK[i-1])/2 #前一个pH
-            if count(pKa,pH,1) == count(pKb,pH,0): #还要再讨论：某些多肽链中同种氨基酸多次出现，同时电离导致pH>某点时多肽带负电，<某点时带负电的情况
-                pI = float('%.2f' % pH) #2位小数
-                ###print(pK[i],pK[i+1])
-                break        
-            elif count(pKa,pH,1) > count(pKb,pH,0): #如果凑不到0电荷
-                m = count(pKa,pH,1) - count(pKb,pH,0) #环境pH=pH时所带负电
-                n = count(pKb,prev,0) - count(pKa,prev,1) #环境pH=prev时所带正电
-                ###print(m,n)
-                pI =  n*pH/(m+n) + m*prev/(m+n) #假设相邻pH间解离曲线为线性，求pI
-                pI = float('%.2f' % pI) #二位小数
-                ###print(pK[i+1],pK[i],pK[i-1])
-                break
+            pH = float('%.2f' % pH) #2位小数
+            Charge[pH] = abs(count(pKb,pH,0) - count(pKa,pH,1)) #还要再讨论：某些多肽链中同种氨基酸多次出现，同时电离导致pH>某点时多肽带负电，<某点时带负电的情况
+        pI = min(zip(Charge.values(),Charge.keys()))[1]
+        ###print(min(zip(Charge.values(),Charge.keys()))[0])
         Mw = Mw-18.015*(len(L[k])-1) #氨基酸总质量减脱水质量
         P[k] = (len(L[k]),float('%.1f' % Mw),pI,'%.1f%%' % (b*100/len(L[k])),'%.1f%%' % (c*100/len(L[k])),'%.1f%%' % (a*100/len(L[k])),'%.1f%%' % (d*100/len(L[k])))
         #P = {Peptide:(NumberOfResidues, MolecularWeight, IsoelectricPoint, +CPercentage(一位小数), -CPercentage, NUPercentage, PUPercentage)}
-
     import pandas as pd 
     import matplotlib.pyplot as plt
     from numpy import log

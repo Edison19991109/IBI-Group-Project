@@ -6,14 +6,19 @@ Created on Wed Apr  3 18:58:57 2019
 @author: cuijiajun
 """
 import re
-dna_seq = input('give me a sequence of DNA (please use capital letters): ')
-if re.search('a|t|c|g',dna_seq) :
-    print ('please use capital letters')
-elif re.search('A|T|G|C',dna_seq):
-    complement = {'A':'T','G':'C','C':'G','T':'A'}
-    com_seq = ''
-    dna_seq = dna_seq.strip()
+def Cap(s):
+    c = ''
+    for char in s:
+        if re.match('[A-Za-z]',char):
+            c += char.upper()
+    return c
+dna_seq = Cap(input('Input a sequence of DNA (5\'-3\'):\n'))
+complement = {'A':'T','G':'C','C':'G','T':'A'}
+com_seq = ''
+if re.search(r'[^ATGC]',dna_seq):
+    print('\nInvalid sequence')
+else:
     for i in dna_seq:
-        com_seq += complement[i]
+        com_seq += complement[i] 
     com_seq = com_seq[::-1]
-    print ('complementary DNA strand (from 5 - 3) is:',com_seq)
+    print ('\nComplementary DNA strand (5\'-3\') is:\n'+com_seq)
