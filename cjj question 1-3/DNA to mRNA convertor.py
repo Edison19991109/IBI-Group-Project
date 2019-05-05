@@ -20,5 +20,6 @@ else:
     rna_seq = ''
     for i in dna_seq:
         rna_seq += transcription[i]
-    print ('\nThe hnRNA (mRNA precursor) sequence (3\'-5\') is:\n'+rna_seq)
+    rna_seq = rna_seq[::-1]
+    print ('\nThe hnRNA (mRNA precursor) sequence (5\'-3\') is:\n'+rna_seq)
     
